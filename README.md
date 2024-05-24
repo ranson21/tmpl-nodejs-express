@@ -47,5 +47,5 @@ Please make sure to update tests as appropriate.
 [last-commit]: https://img.shields.io/github/last-commit/ranson21/tmpl-nodejs-express
 [version]: https://img.shields.io/github/package-json/v/ranson21/tmpl-nodejs-express
 [license]: https://img.shields.io/github/license/ranson21/tmpl-nodejs-express
-[node-version]: https://img.shields.io/github/package-json/engines.node/ranson21/tmpl-nodejs-express?color=orange
-[npm-version]: https://img.shields.io/github/package-json/engines.npm/ranson21/tmpl-nodejs-express?color=red
+[node-version]: https://badge.fury.io/js/node.svg
+[npm-version]: https://badge.fury.io/js/npm.svg
