@@ -42,10 +42,25 @@ export async function configure() {
  * @returns {Function} -- Partial app callback loaded with server and optional db connection
  */
 export function stop({ server, log }) {
-  return async () => {
+  return () => {
     log.info(MESSAGES.SHUTDOWN_START);
-    await server.close();
+    server.close();
     log.info(MESSAGES.SHUTDOWN_COMPLETE);
+  };
+}
+
+/**
+ * Express service listener
+ * @param {Error} err -- Server Error
+ */
+export function listener(log, port) {
+  return (err) => {
+    if (err) {
+      log.info(MESSAGES.STARTUP_ERROR);
+      return;
+    }
+
+    log.info(MESSAGES.STARTUP.replace("%port", port));
   };
 }
 
@@ -60,10 +75,7 @@ export async function start() {
   const port = Env.port;
 
   // Start the service
-  const server = await app.listen(port, function (err) {
-    if (err) log.info("Error in server setup");
-    log.info(MESSAGES.STARTUP.replace("%port", port));
-  });
+  const server = await app.listen(port, listener(log, port));
 
   // Listen for sigint to gracefully shutdown
   process.on("SIGINT", stop({ server, log }));

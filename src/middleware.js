@@ -16,24 +16,26 @@ export const logFormatter = ({ level, timestamp, message, meta }) => {
   if (meta) {
     // Attach the user if present
     if (meta?.req?.user?.email) {
-      msg += `(${mesa?.req.user?.email})`;
+      msg += `(${meta?.req.user?.email}) `;
     }
 
     // Attach the status code icon
     switch (true) {
-      case meta?.req?.statusCode >= 400 && meta?.res?.statusCode <= 499:
-        msg += "🚫";
+      case meta?.res?.statusCode >= 400 && meta?.res?.statusCode <= 499:
+        msg += "🚫 ";
         break;
-      case meta?.req?.statusCode >= 200 && meta?.res?.statusCode <= 299:
-        msg += "✅";
+      case meta?.res?.statusCode >= 200 && meta?.res?.statusCode <= 299:
+        msg += "✅ ";
         break;
-      case meta?.req?.statusCode >= 300 && meta?.res?.statusCode <= 399:
-        msg += "➡️";
+      case meta?.res?.statusCode >= 300 && meta?.res?.statusCode <= 399:
+        msg += "➡ ";
         break;
-      case meta?.req?.statusCode >= 500:
-        msg += "❌";
+      case meta?.res?.statusCode >= 500:
+        msg += "❌ ";
         break;
     }
+
+    msg += `${meta?.res?.statusCode} - `;
   }
 
   // Attach the message at the end
@@ -54,7 +56,7 @@ export const newLogger = () => {
         format: format.combine(
           format.colorize(),
           format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
-          format.printf(logFormatter)
+          format.printf(logFormatter),
         ),
       }),
     ],

@@ -6,8 +6,8 @@ export const routeHandler = (handler) => async (req, res) => {
   try {
     const result = await handler(req);
     res.status(200).json(result);
-  } catch (err) {
-    req.logger.error(code ? `${code} - ${message}` : message);
-    res.status(status || 500).json({ message, code });
+  } catch ({ message, code }) {
+    req.logger.error(message);
+    res.status(code || 500).json({ message, code });
   }
 };

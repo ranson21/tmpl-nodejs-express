@@ -46,17 +46,20 @@ describe("Service Middleware", () => {
     });
 
     it("Attaches the user if present", async () => {
-      // Run the test
-      const formatted = logFormatter({
+      // Setup the test
+      const config = {
         message,
         level,
         timestamp,
-        meta: { req: { user } },
-      });
+        meta: { req: { user }, res: { statusCode: 200 } },
+      };
+
+      // Run the test
+      const formatted = logFormatter(config);
 
       // Assertions
       expect(formatted).toEqual(
-        `${level} - [${timestamp}]: (${user.email}) ${message}`
+        `${level} - [${timestamp}]: (${user.email}) ✅ ${config.meta.res.statusCode} - ${message}`,
       );
     });
 
@@ -81,16 +84,16 @@ describe("Service Middleware", () => {
 
       // Assertions
       expect(errorFormat).toEqual(
-        `${level} - [${timestamp}]: 🚫 ${error} - ${message}`
+        `${level} - [${timestamp}]: ❌ ${error} - ${message}`,
       );
       expect(notFoundFormat).toEqual(
-        `${level} - [${timestamp}]: ✅ ${notFound} - ${message}`
+        `${level} - [${timestamp}]: 🚫 ${notFound} - ${message}`,
       );
       expect(redirectFormat).toEqual(
-        `${level} - [${timestamp}]: ➡ ${redirect} - ${message}`
+        `${level} - [${timestamp}]: ➡ ${redirect} - ${message}`,
       );
       expect(successFormat).toEqual(
-        `${level} - [${timestamp}]: ❌ ${success} - ${message}`
+        `${level} - [${timestamp}]: ✅ ${success} - ${message}`,
       );
     });
   });
@@ -130,7 +133,7 @@ describe("Service Middleware", () => {
       createLogger.mockReturnValue(mockLogger);
 
       // Run the test
-      const logger = newLogger;
+      const logger = newLogger();
       logger.logMiddleware(req, res, next);
 
       // Assertions
@@ -147,14 +150,14 @@ describe("Service Middleware", () => {
       const docs = {};
       const swaggerEndpoint = jest.fn();
       YAML.load.mockReturnValue(docs);
-      swaggerEndpoint.setup.mockReturnValue(swaggerEndpoint);
+      swagger.setup.mockReturnValue(swaggerEndpoint);
 
       // Run the test
       initSwagger(router);
 
       // Assertions
       expect(swagger.setup).toHaveBeenCalledWith(docs);
-      expect(YAML.load).toHaveBeenCalledWith("config/swagger/yaml");
+      expect(YAML.load).toHaveBeenCalledWith("config/swagger.yaml");
       expect(router.use).toHaveBeenCalledWith("/api-docs", swagger.serve);
       expect(router.get).toHaveBeenCalledWith("/api-docs", swaggerEndpoint);
     });

@@ -1,5 +1,5 @@
 // Import the module to be tested
-import { start, stop } from "src/index";
+import { listener, start, stop } from "src/index";
 
 // NPM Module Dependencies
 import express from "express";
@@ -11,6 +11,7 @@ import { config as env } from "dotenv";
 import { MESSAGES } from "src/constants";
 import { routes } from "src/router";
 import { newLogger } from "src/middleware";
+import { Env as Environment } from "src/env";
 
 // Mock Dependencies
 jest.mock("express");
@@ -38,6 +39,9 @@ const mockRoutes = jest.fn();
 const mockCors = jest.fn();
 const jsonParser = jest.fn();
 const formParser = jest.fn();
+const mockEnv = {
+  port: "",
+};
 
 describe("Service", () => {
   beforeAll(() => {
@@ -54,27 +58,49 @@ describe("Service", () => {
     env();
   });
 
-  it("Loads default env variables", async () => {
+  it("Loads env variables", async () => {
     // Setup the test
-    delete process.env.PORT;
+    Environment.port = 9000;
 
     // Run the test
     await start();
 
     // Assertions
-    expect(app.listen).toHaveBeenCalledWith({ port: 4000 });
+    expect(app.listen).toHaveBeenCalledWith(
+      Environment.port,
+      expect.any(Function),
+    );
   });
 
-  it("Loads passed env variables", async () => {
+  it("Shuts down the service if error during startup", () => {
     // Setup the test
-    const port = "9000";
-    process.env.PORT = port;
+    const log = { info: jest.fn() };
+    const error = "Something went wrong";
+    const tester = listener(log);
 
     // Run the test
-    await start();
+    tester(error);
 
     // Assertions
-    expect(app.listen).toHaveBeenCalledWith({ port });
+    expect(log.info).toHaveBeenCalledTimes(1);
+    expect(log.info).toHaveBeenNthCalledWith(1, MESSAGES.STARTUP_ERROR);
+  });
+
+  it("Starts listening if no errors during startup", () => {
+    // Setup the test
+    const port = 9000;
+    const log = { info: jest.fn() };
+    const tester = listener(log, port);
+
+    // Run the test
+    tester();
+
+    // Assertions
+    expect(log.info).toHaveBeenCalledTimes(1);
+    expect(log.info).toHaveBeenNthCalledWith(
+      1,
+      MESSAGES.STARTUP.replace("%port", port),
+    );
   });
 
   it("Registers default middleware", async () => {
@@ -107,6 +133,6 @@ describe("Service", () => {
     // Assertions
     expect(log.info).toHaveBeenNthCalledWith(1, MESSAGES.SHUTDOWN_START);
     expect(server.close).toHaveBeenCalled();
-    expect(log.info).toHaveBeenNthCalledWith(2, MESSAGES.SHUTDOWN_START);
+    expect(log.info).toHaveBeenNthCalledWith(2, MESSAGES.SHUTDOWN_COMPLETE);
   });
 });

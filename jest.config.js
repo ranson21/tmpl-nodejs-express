@@ -15,6 +15,7 @@ module.exports = {
   moduleNameMapper: {
     "^src/(.*)$": "<rootDir>/src/$1",
     "^config/(.*)$": "<rootDir>/config/$1",
+    "^package(.*)$": "<rootDir>/package.json",
     "^test/(.*)$": "<rootDir>/test/$1",
   },
   collectCoverage: true,
