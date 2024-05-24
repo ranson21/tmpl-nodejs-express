@@ -1,0 +1,7 @@
+# Ignore dirs
+node_modules
+build
+coverage
+
+# Ignore Files
+.env

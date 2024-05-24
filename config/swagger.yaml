@@ -1,0 +1,23 @@
+---
+openapi: 3.0.0
+info:
+  title: Template Express API
+  description: Template API for building out a new service
+  contact:
+    email: abby@abbyranson.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/license/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000
+    description: Local instance of the template service
+paths:
+  /health:
+    get:
+      summary: health check endpoint
+      description: returns the health status of the service
+      operationId: Health.check
+      responses:
+        "200":
+          description: service healthy
