@@ -60,14 +60,14 @@ describe("Service", () => {
 
   it("Loads env variables", async () => {
     // Setup the test
-    Environment.port = 9000;
+    Environment.PORT = 9000;
 
     // Run the test
     await start();
 
     // Assertions
     expect(app.listen).toHaveBeenCalledWith(
-      Environment.port,
+      Environment.PORT,
       expect.any(Function),
     );
   });

@@ -9,13 +9,21 @@ NodeJS Express Template is a starter repository using a common pattern for creat
 
 ## Installation
 
-Make sure you have the latest version of NodeJS or preferably NVM and the install the node_modules
+Make sure you have the latest version of NodeJS or preferably NVM installed and then install the node_modules
 
 ```bash
 npm install
 ```
 
 ## Usage
+
+*Environment Variables*: Located in [src/env.js](src/env.js) with default values, for any new variables simply add the key to the `vars` object in this file along with an optional default, example:
+```javascript
+const vars = {
+  ...
+  NEW_KEY: "default_value"
+}
+```
 
 **development**
 

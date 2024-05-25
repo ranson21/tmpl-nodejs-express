@@ -1,5 +1,17 @@
+// Define all environment variables used by the service
+// set default values or "" for no default
+const vars = {
+  API_PATH: "",
+  CORS: "*",
+  PORT: 4000,
+};
+
 export const Env = {
-  apiPath: process.env.API_PATH || "",
-  cors: process.env.CORS || "*",
-  port: process.env.PORT || 4000,
+  ...Object.keys(vars).reduce(
+    (items, item) => ({
+      ...items,
+      [item]: process.env[item] || vars[item],
+    }),
+    {},
+  ),
 };

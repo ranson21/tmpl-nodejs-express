@@ -22,7 +22,7 @@ export async function configure() {
   app.use(json());
 
   // Add CORS support
-  app.use(cors({ origin: Env.cors }));
+  app.use(cors({ origin: Env.CORS }));
 
   // Attach the logger
   const { routeLogger, log, logMiddleware } = newLogger();
@@ -72,7 +72,7 @@ export async function start() {
   const { app, log } = await configure();
 
   // Set the port
-  const port = Env.port;
+  const port = Env.PORT;
 
   // Start the service
   const server = await app.listen(port, listener(log, port));

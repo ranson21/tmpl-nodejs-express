@@ -13,7 +13,7 @@ export const routes = (app) => {
   const router = new Router();
 
   // Attach the base path for the service
-  app.use(Env.apiPath, router);
+  app.use(Env.API_PATH, router);
 
   // Attach the routes to the controller
   router.get("/health", routeHandler(Health.check));

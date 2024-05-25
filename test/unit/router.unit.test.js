@@ -33,13 +33,13 @@ describe("router.js", () => {
   });
   it("attaches route handlers to endpoints and returns the router", () => {
     // Setup the test
-    Env.apiPath = "test";
+    Env.API_PATH = "test";
 
     // Run the test
     routes(app);
 
     // Assertions
-    expect(app.use).toHaveBeenCalledWith(Env.apiPath, mockRouter);
+    expect(app.use).toHaveBeenCalledWith(Env.API_PATH, mockRouter);
     expect(initSwagger).toHaveBeenCalledWith(mockRouter);
     expect(routeHandler).toHaveBeenCalledWith(Health.check);
     expect(mockRouter.get).toHaveBeenCalledWith("/health", testHandler);
