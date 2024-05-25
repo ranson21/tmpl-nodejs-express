@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { routeHandler } from "src/controller";
-import { initSwagger } from "src/middleware";
+import { routeHandler } from "pkg-nodejs-svc-common/controller";
+import { initSwagger } from "pkg-nodejs-svc-common/middleware";
 import { Health } from "src/modules/health";
 import { Env } from "src/env";
 

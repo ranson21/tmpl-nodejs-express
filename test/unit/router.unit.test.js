@@ -5,14 +5,14 @@ import { routes } from "src/router";
 import { Router } from "express";
 
 // Local Package Dependencies
-import { routeHandler } from "src/controller";
-import { initSwagger } from "src/middleware";
+import { routeHandler } from "pkg-nodejs-svc-common/controller";
+import { initSwagger } from "pkg-nodejs-svc-common/middleware";
 import { Health } from "src/modules/health";
 import { Env } from "src/env";
 
 // Mock dependencies
-jest.mock("src/middleware");
-jest.mock("src/controller");
+jest.mock("pkg-nodejs-svc-common/middleware");
+jest.mock("pkg-nodejs-svc-common/controller");
 jest.mock("src/modules/health");
 jest.mock("src/env");
 jest.mock("express");

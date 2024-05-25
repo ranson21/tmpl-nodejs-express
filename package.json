@@ -16,6 +16,13 @@
     "node": ">=14.0.0",
     "npm": ">=6.14.18"
   },
+  "exports": {
+    ".": "./index.js",
+    "./controller.js": "./controller.js",
+    "./controller": "./controller.js",
+    "./middleware.js": "./middleware.js",
+    "./middleware": "./middleware.js"
+  },
   "author": "Abby Ranson",
   "license": "MIT",
   "dependencies": {
@@ -27,6 +34,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-winston": "^4.2.0",
+    "pkg-nodejs-svc-common": "github:ranson21/pkg-nodejs-svc-common",
     "swagger-ui-express": "^5.0.0",
     "winston": "^3.13.0",
     "yamljs": "^0.3.0"
